@@ -35,7 +35,7 @@ final class FillWithColor {
 
         var newImage = image
         fillPoints.insert(.init(row, column))
-        paintAdjacentElements(at: .init(row, column), in: &newImage, with: newColor)
+        paintAdjacentElements(at: .init(row, column), in: &newImage)
         fillPoints.forEach { newImage[$0.row][$0.column] = newColor }
         return newImage
     }
@@ -43,8 +43,7 @@ final class FillWithColor {
     // MARK: - Private methods
     private func paintAdjacentElements(
         at point: RSPoint,
-        in image: inout [[Int]],
-        with color: Int
+        in image: inout [[Int]]
     ) {
         let area: [RSPoint] = [
             .init(point.row, point.column - 1),
@@ -57,7 +56,7 @@ final class FillWithColor {
         area.forEach { nearestPoint in
             if image[nearestPoint.row][nearestPoint.column] == image[point.row][point.column] {
                 if fillPoints.insert(.init(nearestPoint.row, nearestPoint.column)).inserted {
-                    paintAdjacentElements(at: nearestPoint, in: &image, with: color)
+                    paintAdjacentElements(at: nearestPoint, in: &image)
                 }
             }
         }
